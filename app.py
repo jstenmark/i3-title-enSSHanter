@@ -24,15 +24,15 @@ class Checker():
             print('No args found. Please use "connect" or "disconnect"')
             exit(1)
 
-        if sys.argv[1] == 'disconnect':
+        if sys.argv[1] == 'connect':
+            title = self.ctx.name.replace("ssh ", "")
+            self.set_title(f'<span  size="x-large" foreground="#bf616a">   PRODUCTION SERVER:  { title }  </span>')
+        elif sys.argv[1] == 'disconnect':
             title = '{}@{}:{}'.format(
                     getuser(),
                     gethostname(),
                     getcwd().replace(path.expanduser("~"), "~"))
             self.set_title(title)
-        elif sys.argv[1] == 'connect':
-            title = self.ctx.name.replace("ssh ", "")
-            self.set_title(f'<span  size="x-large" foreground="#bf616a">   PRODUCTION SERVER:  { title }  </span>')
 
 if __name__ == "__main__":
     Checker().check()
