@@ -15,6 +15,8 @@ Needs i3wm, python3, and ssh
 2. Add the app to you bin path, eg:
 
 ```bash
-ln -s ~/i3-ssh-termite-autocolor/app.py .local/bin/check-ssh-status
+ln -s ~/i3-ssh-autotitle/app.py ~/.local/bin/check-ssh-status
 ```
+Or skip symlink and use absolute path in your ssh config
+
 3. Add the ssh config
