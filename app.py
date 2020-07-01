@@ -32,7 +32,7 @@ class Checker():
             end = ' </span>'
             self.set_title(f'{ start }{ warn_text } { title_text } { end }')
         elif sys.argv[1] == 'disconnect':
-            title = '{}@{}:{}'.format(
+            title = '{}@{}: {}'.format(
                     getuser(),
                     gethostname(),
                     getcwd().replace(path.expanduser("~"), "~"))
