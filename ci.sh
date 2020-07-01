@@ -11,13 +11,13 @@ case $1 in
     ;;
 
   shfmt)
-    find . -iname "aliases" -exec ./shfmt -i 4 -ci -d {} +
+    ./shfmt -i 4 -ci -d "aliases"
     ;;
 
   # We use + instead of \; here because find doesn't pass
   # the exit code through when used with \;
   shellcheck)
-    find . -iname "aliases" -exec shellcheck {} +
+    shellcheck "aliases"
     ;;
 
   *)

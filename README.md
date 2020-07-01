@@ -25,10 +25,10 @@ Verified with termite.
 
 - Add the ssh alias to your aliases file and reload your shell (eg `~/.bashrc`).
 
-- Add config from `ssh_config` to your `.ssh/config`, add prod servers as you like.
+- Add config from `ssh_config` to your `~/.ssh/config`, add prod servers as you like.
 
 ## Usage
 
 SSH to one of your prod servers and watch your terminal title change.
 
-Note: The `LocalCommand` setting does not get executed when reusing a ssh connection the `ControlMaster` setting
+Note: The `LocalCommand` setting does not get executed when reusing a ssh socket with `ControlMaster`.
