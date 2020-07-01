@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-from i3ipc import Connection, Event
+from i3ipc import Connection
 
 import sys
 from os import getcwd, path
 from socket import gethostname
 from getpass import getuser
+
 
 class Checker():
     ctx = None
@@ -25,14 +26,18 @@ class Checker():
             exit(1)
 
         if sys.argv[1] == 'connect':
-            title = self.ctx.name.replace("ssh ", "")
-            self.set_title(f'<span  size="x-large" foreground="#bf616a">   PRODUCTION SERVER:  { title }  </span>')
+            start = '<span  size="x-large" foreground="#bf616a">'
+            warn_text = '  PRODUCTION SERVER:'
+            title_text = self.ctx.name.replace('ssh ', '')
+            end = ' </span>'
+            self.set_title(f'{ start }{ warn_text } { title_text } { end }')
         elif sys.argv[1] == 'disconnect':
             title = '{}@{}:{}'.format(
                     getuser(),
                     gethostname(),
                     getcwd().replace(path.expanduser("~"), "~"))
             self.set_title(title)
+
 
 if __name__ == "__main__":
     Checker().check()
