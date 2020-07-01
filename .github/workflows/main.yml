@@ -35,13 +35,13 @@ jobs:
     steps:
     - uses: actions/checkout@v1
     - name: run shellcheck
-      run: ./build/ci.sh shellcheck
+      run: ./ci.sh shellcheck
 
   shell-format-validation:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v1
     - name: install-shfmt
-      run: ./build/ci.sh install-shfmt
+      run: ./ci.sh install-shfmt
     - name: run shfmt checks
-      run: ./build/ci.sh shfmt
+      run: ./ci.sh shfmt

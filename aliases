@@ -1,1 +1,5 @@
-ssh () { command ssh "$@"; check-ssh-status disconnect }
+# shellcheck disable=SC2148
+ssh() {
+    command ssh "$@"
+    check-ssh-status disconnect
+}
