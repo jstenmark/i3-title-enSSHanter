@@ -13,25 +13,26 @@ class Checker():
         try:
             self.ctx = Connection().get_tree().find_focused()
         except Exception as e:
-            print('could not connect to i3 ipc')
+            print('Could not connect to i3 ipc')
             print(e)
 
     def set_title(self, title):
-        self.ctx.command('title_format ' + title)
+        self.ctx.command(f'title_format { title }')
 
     def check(self):
         if len(sys.argv) <= 1:
-            print('no args found, please use "connect" or "disconnect"')
+            print('No args found. Please use "connect" or "disconnect"')
             exit(1)
 
         if sys.argv[1] == 'disconnect':
-            self.set_title(getuser() + '@' + gethostname() + ': ' + getcwd().replace(path.expanduser('~'), '~'))
+            title = '{}@{}:{}'.format(
+                    getuser(),
+                    gethostname(),
+                    getcwd().replace(path.expanduser("~"), "~"))
+            self.set_title(title)
         elif sys.argv[1] == 'connect':
-            self.set_title(
-                    '<span  size="x-large" foreground="#bf616a">   PRODUCTION SERVER:  ' +
-                    self.ctx.name.replace('ssh ', '') +
-                    '  </span>'
-                )
+            title = self.ctx.name.replace("ssh ", "")
+            self.set_title(f'<span  size="x-large" foreground="#bf616a">   PRODUCTION SERVER:  { title }  </span>')
 
 if __name__ == "__main__":
     Checker().check()
