@@ -23,9 +23,20 @@ Verified with termite.
 
 	- Or skip the symlink and use an absolute path in `LocalCommand`
 
-- Add the ssh alias to your aliases file and reload your shell (eg `~/.bashrc`).
+- Add an ssh wrapper alias to your aliases file and reload your shell (eg `~/.bashrc`).
+```bash
+ssh() {
+    command ssh "$@"
+    check-ssh-status disconnect
+}
+```
 
-- Add config from `ssh_config` to your `~/.ssh/config`, add prod servers as you like.
+- Add this to your `~/.ssh/config`, append hosts as you like.
+```ssh-config
+Host *prod* !*dev* examplehost1* examplehost2.com
+    PermitLocalCommand yes
+    LocalCommand check-ssh-status connect
+```
 
 ## Usage
 

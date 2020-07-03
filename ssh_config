@@ -1,3 +1,0 @@
-Host *prod* !*dev* examplehost1* examplehost2.com
-    PermitLocalCommand yes
-    LocalCommand check-ssh-status connect
