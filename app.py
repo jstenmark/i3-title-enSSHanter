@@ -21,7 +21,7 @@ parser.add_argument('--font_color',
                     action='store',
                     dest='font_color',
                     metavar='color',
-                    help='foreground html color. eg: #bf616a or red',
+                    help='foreground html color. eg: "#bf616a" or red',
                     default='#bf616a')
 args = parser.parse_args()
 
