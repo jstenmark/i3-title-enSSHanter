@@ -1,10 +1,14 @@
-name: Build
+name: Build and lint
 
 on:
   push:
     branches: [ master ]
+    paths:
+      - '*.py'
   pull_request:
     branches: [ master ]
+    paths:
+      - '*.py'
 
 jobs:
   python-linter:

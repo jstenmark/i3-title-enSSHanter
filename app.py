@@ -8,21 +8,20 @@ from os import getcwd, path
 from socket import gethostname
 from getpass import getuser
 
-parser = argparse.ArgumentParser(description='Change i3 window title when ssh to a prod server.')
-parser.add_argument('--font_color',
-    action='store',
-    dest='font_color',
-    help='foreground color code. eg: #bf616a or red',
-    default='#bf616a')
-
+parser = argparse.ArgumentParser(
+    description='Change i3 window title when ssh to a prod server.')
 group = parser.add_mutually_exclusive_group()
 group.add_argument("--connect",
-    action='store_true',
-    help='Use before ssh connection')
+                   action='store_true',
+                   help='Use before ssh connection')
 group.add_argument("--disconnect",
-    action='store_true',
-    help='Use after ssh connection')
-
+                   action='store_true',
+                   help='Use after ssh connection')
+parser.add_argument('--font_color',
+                    action='store',
+                    dest='font_color',
+                    help='foreground color code. eg: #bf616a or red',
+                    default='#bf616a')
 args = parser.parse_args()
 
 
