@@ -18,7 +18,7 @@ Verified with termite.
 ## Installation
 - Install dependencies `pip install -r requirements.txt`
 
-- Add the app to you bin path
+- Add the app to you bin folder
 	- `ln -s ~/i3-ssh-autotitle/app.py ~/.local/bin/check-ssh-status`
 
 	- Or skip the symlink and use an absolute path in `LocalCommand`

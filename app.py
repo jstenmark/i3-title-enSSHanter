@@ -1,14 +1,12 @@
 #!/usr/bin/env python3
-from i3ipc import Connection
-
-import argparse
-import sys
-
+from sys import exit, argv
+from argparse import ArgumentParser
 from os import getcwd, path
 from socket import gethostname
 from getpass import getuser
+from i3ipc import Connection
 
-parser = argparse.ArgumentParser(
+parser = ArgumentParser(
     description='Change i3 window title when ssh to a prod server.')
 group = parser.add_mutually_exclusive_group(required=True)
 group.add_argument("--connect",
@@ -56,8 +54,8 @@ class Checker():
 
 
 if __name__ == "__main__":
-    if len(sys.argv) < 2:
+    if len(argv) < 2:
         parser.print_usage()
-        sys.exit(1)
+        exit(1)
     else:
         Checker().check()
