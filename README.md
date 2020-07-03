@@ -16,7 +16,7 @@ The ssh `LocalCommand` is supposed to match on production servers, otherwise the
 Verified with termite.
 
 ## Installation
-- Install dependencies `install -r requirements.txt`
+- Install dependencies `pip install -r requirements.txt`
 
 - Add the app to you bin path
 	- `ln -s ~/i3-ssh-autotitle/app.py ~/.local/bin/check-ssh-status`
@@ -27,7 +27,7 @@ Verified with termite.
 ```bash
 ssh() {
     command ssh "$@"
-    check-ssh-status disconnect
+    check-ssh-status --disconnect
 }
 ```
 
@@ -35,7 +35,7 @@ ssh() {
 ```ssh-config
 Host *prod* !*dev* examplehost1* examplehost2.com
     PermitLocalCommand yes
-    LocalCommand check-ssh-status connect
+    LocalCommand check-ssh-status --connect
 ```
 
 ## Usage
