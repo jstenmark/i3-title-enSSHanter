@@ -24,6 +24,7 @@ class WarnTextValidationError(Exception):
     """
     pass
 
+
 def validate_font_color(color: str):
     """
     Validates the font color by checking if it is a valid HTML color code or color name.
@@ -32,10 +33,14 @@ def validate_font_color(color: str):
         color (str): The font color to be validated.
 
     Raises:
-        FontColorValidationError: If the font color is not a valid HTML color code or color name.
+        FontColorValidationError:
+            If the font color is not a valid HTML color code or color name.
     """
     if not is_valid_html_color(color):
-        raise FontColorValidationError('Invalid font color format. Please use a valid HTML color code or color name.')
+        raise FontColorValidationError(
+            'Invalid font color format. Please use a valid HTML \
+            color code or color name.')
+
 
 def validate_warn_text(text: str):
     """
@@ -48,7 +53,9 @@ def validate_warn_text(text: str):
         WarnTextValidationError: If the warn text contains invalid characters.
     """
     if text and not re.match(ALLOWED_WARN_TEXT_PATTERN, text):
-        raise WarnTextValidationError('Invalid characters in warn_text. Please use only alphanumeric characters and allowed symbols.')
+        raise WarnTextValidationError(
+            'Invalid characters in warn_text. ' +
+            'Please use only alphanumeric characters and allowed symbols.')
 
 
 def is_valid_html_color(color: str) -> bool:

@@ -14,8 +14,6 @@ from i3_ssh_title_updater.constants import (
     DEFAULT_FONT_COLOR,
     DEFAULT_WARN_TEXT,
 )
-
-# from i3_ssh_title_updater.i3_title_ensshanter import WindowTitleUpdater, parse_command_line_arguments
 from i3_ssh_title_updater.helpers import (
     FontColorValidationError,
     WarnTextValidationError,
@@ -29,51 +27,75 @@ def parse_command_line_arguments() -> argparse.Namespace:
     """
     Parse the command line arguments and return the parsed arguments.
 
-    This function uses the argparse module to define and parse command line arguments. It creates an ArgumentParser object and adds various arguments to it, including the following:
+    This function uses the argparse module to define and parse command line arguments.
+    It creates an ArgumentParser object and adds various arguments to it,
+    including the following:
 
-    - `--connect`: A boolean flag that indicates whether to use the connection option before connecting to an SSH server.
-    - `--disconnect`: A boolean flag that indicates whether to use the disconnection option after connecting to an SSH server.
-    - `--font_color`: A string that specifies the foreground HTML color to use for the window title. The default value is `DEFAULT_FONT_COLOR`.
-    - `--warn_text`: A string that specifies a custom warning text to display for production servers. The default value is `DEFAULT_WARN_TEXT`.
+    - `--connect`: A boolean flag that indicates whether to use the connection option 
+        before connecting to an SSH server.
+    - `--disconnect`: A boolean flag that indicates whether to use the disconnection
+        option after connecting to an SSH server.
+    - `--font_color`: A string that specifies the foreground HTML color to use for the
+        window title. The default value is `DEFAULT_FONT_COLOR`.
+    - `--warn_text`: A string that specifies a custom warning text to display for
+        production servers. The default value is `DEFAULT_WARN_TEXT`.
 
-    The function then parses the command line arguments using the `parse_args()` method of the ArgumentParser object.
-    It checks if the provided `font_color` is a valid HTML color code or a known color name and raises a `ValueError`
-    if it is not. It also validates the `warn_text` using the defined pattern and raises a `ValueError` if it contains
+    The function then parses the command line arguments using the `parse_args()` method
+    of the ArgumentParser object.
+    It checks if the provided `font_color` is a valid HTML color code or a known
+    color name and raises a `ValueError`
+    if it is not. It also validates the `warn_text` using the defined pattern and raises
+    a `ValueError` if it contains
     invalid characters.
 
-    If a valid color name is provided for `font_color`, the function converts it to an HTML color code
+    If a valid color name is provided for `font_color`, the function converts it
+    to an HTML color code
     using the `name_to_hex()` function from the `webcolors` module.
 
     Returns:
         An `argparse.Namespace` object that contains the parsed command line arguments.
 
     Raises:
-        ValueError: If the provided `font_color` is not a valid HTML color code or color name, or if the `warn_text` contains invalid characters.
+        ValueError: If the provided `font_color` is not a valid HTML color code or color
+        name, or if the `warn_text` contains invalid characters.
     """
-    parser = argparse.ArgumentParser(description='Automatically update the i3wm window title when connecting to an SSH server.')
+    parser = argparse.ArgumentParser(
+        description='Automatically update the i3wm window' +
+        ' title when connecting to an SSH server')
     group = parser.add_mutually_exclusive_group(required=True)
-    group.add_argument("--connect", action='store_true', help='Use before SSH connection')
-    group.add_argument("--disconnect", action='store_true', help='Use after SSH connection')
-    parser.add_argument('--font_color', action='store', dest='font_color', metavar='color',
-                        help='Foreground HTML color (e.g., "#bf616a" or red)', default=DEFAULT_FONT_COLOR)
+    group.add_argument(
+        "--connect", action='store_true', help='Use before SSH connection'
+    )
+    group.add_argument(
+        "--disconnect", action='store_true', help='Use after SSH connection'
+    )
+    parser.add_argument(
+        '--font_color', action='store', dest='font_color', metavar='color',
+                        help='Foreground HTML color (e.g., "#bf616a" or red)',
+                        default=DEFAULT_FONT_COLOR)
     parser.add_argument('--warn_text', action='store', dest='warn_text',
-                        help='Custom warning text for production servers', default=DEFAULT_WARN_TEXT)
+                        help='Custom warning text for production servers',
+                        default=DEFAULT_WARN_TEXT)
 
     args = parser.parse_args()
 
     # Check if the provided font_color is a valid HTML color code or a known color name
     if not is_valid_html_color(args.font_color):
-        raise ValueError('Invalid font color format. Please use a valid HTML color code or color name.')
+        raise ValueError(
+        'Invalid font color format. Please use a valid HTML color code or color name.')
 
     # Validate the warn_text using the defined pattern
     if args.warn_text and not re.match(ALLOWED_WARN_TEXT_PATTERN, args.warn_text):
-        raise ValueError('Invalid characters in warn_text. Please use only alphanumeric characters and allowed symbols.')
+        raise ValueError(
+        'Invalid characters in warn_text.'+
+        ' Please use only alphanumeric characters and allowed symbols.')
 
     # Convert color name to HTML color code if a valid color name is provided
     if not args.font_color.startswith('#'):
         args.font_color = webcolors.name_to_hex(args.font_color)
 
     return args
+
 
 class WindowTitleUpdater:
     """
@@ -123,7 +145,7 @@ class WindowTitleUpdater:
             title (str): The new title to be set for the window.
 
         Note:
-            This method updates the title of the currently focused window in the i3 window manager.
+            This method updates the title of the currently focused window
 
         Example:
             To set the window title to 'My Window', use:
@@ -138,7 +160,7 @@ class WindowTitleUpdater:
         Get the remote title for the window.
 
         Returns:
-            str: The remote title in a formatted string with font color and warning text.
+            str: The remote title in a formatted string with font color and warning text
         """
         span_start = f'<span size="x-large" foreground="{self.args.font_color}">'
         warning_text = f' {self.args.warn_text}'
@@ -157,7 +179,8 @@ class WindowTitleUpdater:
         current_directory = os.getcwd().replace(os.path.expanduser("~"), "~")
         return self.format_local_title(user, hostname, current_directory)
 
-    def format_local_title(self, user: str, hostname: str, current_directory: str) -> str:
+    def format_local_title(
+        self, user: str, hostname: str, current_directory: str) -> str:
         """
         Format the local title for the window.
 
@@ -167,21 +190,32 @@ class WindowTitleUpdater:
             current_directory (str): The current working directory.
 
         Returns:
-            str: The formatted local title in the format 'user@hostname: current_directory'.
+            str: The formatted local title 
+                in the format 'user@hostname: current_directory'.
         """
         return '{}@{}: {}'.format(user, hostname, current_directory)
+
 
 def main():
     """
     Execute the main logic of the program.
 
-    This function is responsible for executing the main logic of the program. It performs the following steps:
-    1. Parse the command line arguments using the `parse_command_line_arguments()` function.
-    2. Validate the font color specified in the command line arguments using the `validate_font_color()` function.
-    3. Validate the warning text specified in the command line arguments using the `validate_warn_text()` function.
-    4. Create an instance of the `WindowTitleUpdater` class with the command line arguments.
-    5. If the `connect` flag is set to `True` in the command line arguments, set the window title to the remote title using the `set_window_title()` and `get_remote_title()` methods of the `WindowTitleUpdater` class.
-    6. If the `disconnect` flag is set to `True` in the command line arguments, set the window title to the local title using the `set_window_title()` and `get_local_title()` methods of the `WindowTitleUpdater` class.
+    This function is responsible for executing the main logic of the program.
+        It performs the following steps:
+    1. Parse the command line arguments using the 
+        `parse_command_line_arguments()` function.
+    2. Validate the font color specified in the command line arguments 
+        using the `validate_font_color()` function.
+    3. Validate the warning text specified in the command line 
+        arguments using the `validate_warn_text()` function.
+    4. Create an instance of the `WindowTitleUpdater` 
+        class with the command line arguments.
+    5. If the `connect` flag is set to `True` in the command line arguments
+        , set the window title to the remote title using the `set_window_title()`
+            and `get_remote_title()` methods of the `WindowTitleUpdater` class.
+    6. If the `disconnect` flag is set to `True` in the command line arguments
+        , set the window title to the local title using the `set_window_title()`
+        and `get_local_title()` methods of the `WindowTitleUpdater` class.
 
     Raises:
         FontColorValidationError: If the validation of the font color fails.
@@ -216,7 +250,8 @@ if __name__ == "__main__":
     """
     Main entry point of the script.
 
-    This function is responsible for parsing command-line arguments, validating input values,
+    This function is responsible for parsing command-line arguments
+        , validating input values,
     and updating the i3 window manager window title based on the provided arguments.
 
     It handles exceptions and logs errors in case of validation or unexpected errors.

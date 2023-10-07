@@ -6,7 +6,8 @@ with open('README.md', 'r') as f:
 setup(
     name='i3-title-enSSHanter',
     version='1.0.0',
-    description='Automatically update the i3wm window title when establishing an SSH connection through a shell.',
+    description='Automatically update the i3wm window title \
+        when establishing an SSH connection through a shell.',
     long_description=long_description,
     long_description_content_type='text/markdown',
     author='JStenmark',
