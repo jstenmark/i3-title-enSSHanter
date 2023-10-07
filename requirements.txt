@@ -1,1 +1,5 @@
 i3ipc==2.2.1
+python-xlib==0.33
+six==1.16.0
+webcolors==1.13
+magicmock==0.3
